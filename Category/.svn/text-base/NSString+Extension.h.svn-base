@@ -1,0 +1,22 @@
+//
+//  NSString+Ext.h
+//  CampusNet
+//
+//  Created by SuoChenhe on 15/6/25.
+//  Copyright (c) 2015年 AndLiSoft. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface NSString (Extension)
+-(BOOL)isNotEmpty;
+-(CGSize)sizeWithFontSize:(CGFloat)fontSize;
+-(CGSize)sizeWithFontAttributes:(UIFont*)font;
++(CGSize)sizeWithText:(NSString*)text font:(UIFont*)font maxSize:(CGSize)maxSize;
+-(CGSize)sizeWithFont:(UIFont*)font maxSize:(CGSize)maxSize;
+
+
+- (NSString *)base64Encode;
+- (NSString *)base64DeCode;
+@end
+

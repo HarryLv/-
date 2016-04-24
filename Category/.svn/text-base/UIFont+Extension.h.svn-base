@@ -1,0 +1,16 @@
+//
+//  UIFont+Extension.h
+//  CaiJie
+//
+//  Created by SuoChenhe on 15/11/9.
+//  Copyright © 2015年 AndLiSoft. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface UIFont (Extension)
++ (UIFont *)customFontOfSize:(CGFloat)fontSize;
++ (UIFont *)blodCustomFontOfSize:(CGFloat)fontSize;
+
++ (CGFloat)fontScale;
+@end

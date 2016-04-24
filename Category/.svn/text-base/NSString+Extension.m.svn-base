@@ -1,0 +1,69 @@
+//
+//  NSString+Ext.m
+//  CampusNet
+//
+//  Created by SuoChenhe on 15/6/25.
+//  Copyright (c) 2015年 AndLiSoft. All rights reserved.
+//
+#import <UIKit/UIKit.h>
+#import "NSString+Extension.h"
+
+@implementation NSString (Extension)
+-(BOOL)isNotEmpty{
+    if (self == nil || self == NULL) {
+        return NO;
+    }
+    if ([self isKindOfClass:[NSNull class]]) {
+        return NO;
+    }
+    if ([[self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
+        return NO;
+    }
+    return YES;
+}
+
+/**计算size大小*/
+-(CGSize)sizeWithFontSize:(CGFloat)fontSize{
+    NSDictionary* dic = @{NSFontAttributeName:[UIFont systemFontOfSize:fontSize]};
+    return [self sizeWithAttributes:dic];
+}
+
+-(CGSize)sizeWithFontAttributes:(UIFont*)font{
+    NSDictionary* dic = @{NSFontAttributeName:font};
+    return [self sizeWithAttributes:dic];
+}
+
+-(CGSize)sizeWithFont:(UIFont*)font maxSize:(CGSize)maxSize{
+    NSDictionary* dic = @{NSFontAttributeName:font};
+    return [self boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:dic context:nil].size;
+}
+
++(CGSize)sizeWithText:(NSString*)text font:(UIFont*)font maxSize:(CGSize)maxSize{
+    
+    return [text sizeWithFont:font maxSize:maxSize];
+}
+
+- (NSString *)base64Encode{
+//     NSLog(@"原始: %@", self);
+
+    NSData *nsdata = [self dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSString *base64Encoded = [nsdata base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    
+//    NSLog(@"Encoded: %@", base64Encoded);
+    
+    return base64Encoded;
+}
+
+- (NSString *)base64DeCode{
+    //    NSLog(@"Encoded: %@", self);
+    
+    NSData *nsdataFromBase64String = [[NSData alloc] initWithBase64EncodedString:self options:NSDataBase64DecodingIgnoreUnknownCharacters];
+
+    NSString *base64Decoded = [[NSString alloc] initWithData:nsdataFromBase64String encoding:NSUTF8StringEncoding];
+    
+//    NSLog(@"Decoded: %@", base64Decoded);
+    
+    return base64Decoded;
+}
+@end

@@ -1,0 +1,13 @@
+//
+//  UIBarButtonItem+Extension.h
+//  CaiJie
+//
+//  Created by SuoChenhe on 15/11/18.
+//  Copyright © 2015年 AndLiSoft. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface UIBarButtonItem (Extension)
++ (instancetype)customItemWithTitle:(NSString *)title style:(UIBarButtonItemStyle)style target:(id)target action:(SEL)action;
+@end

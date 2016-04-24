@@ -1,0 +1,126 @@
+
+/**********************************************************
+ *     _              _  _  _  ____          __   _       *
+ *    / \   _ __   __| || |(_)/ ___|  ___ __/ /__| |_     *
+ *   / _ \ | '_  \/ _  || || |\___ \ / _ \_   _|_   _|    *
+ *  / ___ \| | | | (_) || || | ___) | (_) || |   | |_     *
+ * /_/   \_|_| |_|\____)|_||_||____/ \___/ /_/   \___|    *
+ *                                                        *
+ **********************************************************
+ * Copyright 2015, AndliSoft.com.                         *
+ * All rights, including trade secret rights, reserved.   *
+ **********************************************************/
+
+#import "NSString+Ext.h"
+#import <CommonCrypto/CommonDigest.h>
+
+@implementation NSString (Ext)
+
+
++ (NSString *)md5HexDigest:(NSString*)password
+{
+    const char *original_str = [password UTF8String];
+    unsigned char result[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(original_str,(CC_LONG)strlen(original_str), result);
+    NSMutableString *hash = [NSMutableString string];
+    for (int i = 0; i < 16; i++)
+    {
+        [hash appendFormat:@"%02X", result[i]];
+    }
+    NSString *mdfiveString = [hash lowercaseString];
+    
+    return mdfiveString;
+}
+
++ (NSString*) md5HexForFile: (NSString*) filePath
+{
+    NSFileHandle *handle = [NSFileHandle fileHandleForReadingAtPath:filePath];
+    if( handle== nil ) {
+        return nil;
+    }
+    
+    CC_MD5_CTX md5;
+    CC_MD5_Init(&md5);
+    BOOL done = NO;
+    while(!done)
+    {
+        NSData* fileData = [handle readDataOfLength: 256 ];
+        CC_MD5_Update(&md5, [fileData bytes], (CC_LONG)[fileData length]);
+        if( [fileData length] == 0 ) done = YES;
+    }
+    unsigned char digest[CC_MD5_DIGEST_LENGTH];
+    CC_MD5_Final(digest, &md5);
+    NSString* s = [NSString stringWithFormat: @"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+                   digest[0], digest[1],
+                   digest[2], digest[3],
+                   digest[4], digest[5],
+                   digest[6], digest[7],
+                   digest[8], digest[9],
+                   digest[10], digest[11],
+                   digest[12], digest[13],
+                   digest[14], digest[15]];
+    
+    return [s lowercaseString];
+}
+
++ (NSString*) md5HexForData: (NSData*) data
+{
+    const char *original_str = [data bytes];
+    unsigned char result[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(original_str,(CC_LONG)data.length, result);
+    NSMutableString *hash = [NSMutableString string];
+    for (int i = 0; i < 16; i++)
+    {
+        [hash appendFormat:@"%02X", result[i]];
+    }
+    NSString *mdfiveString = [hash lowercaseString];
+    
+    return mdfiveString;
+
+}
+
+-(BOOL) isNotEmpty
+{
+    return ((![self isEqualToString:@""])&&(self!= nil) && [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length > 0&&(NSNull *)self!=[NSNull null]);
+}
+
++(bool) isStringEmpty:(NSString*) string
+{
+    if( string == nil)
+        return true;
+    return [string isEqualToString:@""];
+}
+
++(bool) isString:(NSString*) s1 sameTo:(NSString*)s2
+{
+    if( s1 == s2 )
+        return true;
+    if( s1 == nil && [s2 isEqualToString:@""] )
+        return true;
+    if( s2 == nil && [s1 isEqualToString:@""] )
+        return true;
+    
+    if( s1 != nil && s2 != nil ) {
+        if( [s1 isEqualToString:s2 ] )
+            return true;
+    }
+    return false;
+}
+
++ (NSString *)getDurationString:(int) duration
+{
+    NSString *showTime = @"";
+    NSInteger num = duration;
+    NSInteger hour = num/3600;
+    NSInteger minite = (num%3600)/60;
+    NSInteger secend = num%60;
+    if (hour > 0) {
+        showTime = [NSString stringWithFormat:@"%ld:%0.2ld:%0.2ld",hour,minite,secend];
+    }else{
+        showTime = [NSString stringWithFormat:@"%0.2ld:%0.2ld",minite,secend];
+    }
+    
+    return showTime;
+}
+
+@end

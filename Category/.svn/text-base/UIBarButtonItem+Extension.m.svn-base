@@ -1,0 +1,23 @@
+//
+//  UIBarButtonItem+Extension.m
+//  CaiJie
+//
+//  Created by SuoChenhe on 15/11/18.
+//  Copyright © 2015年 AndLiSoft. All rights reserved.
+//
+
+#import "UIBarButtonItem+Extension.h"
+
+@implementation UIBarButtonItem (Extension)
++ (instancetype)customItemWithTitle:(NSString *)title style:(UIBarButtonItemStyle)style target:(id)target action:(SEL)action{
+    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithTitle:title style:style target:target action:action];
+    //设置文字
+    NSMutableDictionary* textAttrs = [NSMutableDictionary dictionary];
+    textAttrs[NSFontAttributeName] = [UIFont customFontOfSize:44.f];
+    textAttrs[NSForegroundColorAttributeName] = NAV_ITEM_NORMAL_COLOR;
+    
+    [item setTitleTextAttributes:textAttrs forState:UIControlStateNormal];
+    [item setTitleTextAttributes:textAttrs forState:UIControlStateHighlighted];
+    return item;
+}
+@end
